@@ -1,0 +1,19 @@
+{
+    "name": "fifths/mongodb",
+    "description": "php mongodb class",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lee"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mongodb\\": "src/Mongodb/"
+        }
+    }
+}
