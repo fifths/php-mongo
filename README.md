@@ -1,5 +1,10 @@
 # mongodb class
 
+
+>composer require fifths/mongodb
+
+or
+
 composer.json
 
 >{
