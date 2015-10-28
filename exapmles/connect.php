@@ -13,4 +13,5 @@ foreach($rs as $v)
 {
     $data[] = $v;
 }
+
 echo json_encode($data);
