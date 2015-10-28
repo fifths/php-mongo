@@ -16,7 +16,7 @@ composer.json
 
 >composer udpate
 
-    $m=\Fifths\Mongodb\Mongodb::getInstance();
+    $m=\Mongodb\Mongodb::getInstance();
     $condition = array(
         '_id' => new MongoId('000000000000000000000123')
     );

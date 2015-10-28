@@ -1,6 +1,6 @@
 <?php
 
-namespace Fifths\Mongodb;
+namespace Mongodb;
 
 /**
  * User: lee
