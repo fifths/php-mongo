@@ -7,12 +7,12 @@ or
 
 composer.json
 
->{
->   "require": {
->   "fifths/mongodb": "*@dev"
->  }
->}
+    {
+       "require": {
+       "fifths/mongodb": "*@dev"
+      }
+    }
 
 
-composer udpate
+>composer udpate
 
