@@ -49,7 +49,7 @@ class Mongodb
 
     private function connection_string()
     {
-        $config = require('config.bak.php');
+        $config = require('config.php');
         $this->user = $config['user'];
         $this->pwd = $config['pwd'];
         $this->host = $config['host'];
