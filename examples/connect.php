@@ -6,12 +6,6 @@ $m=\Mongodb\Mongodb::getInstance();
 $condition = array(
     '_id' => new MongoId('000000000000000000000537')
 );
-$rs=$m->db->ProductTeamtour->find($condition);
+$rs=$m->db->ProductTeamtour->findOne($condition);
 
-$data=array();
-foreach($rs as $v)
-{
-    $data[] = $v;
-}
-
-echo json_encode($data);
+echo json_encode($rs);
