@@ -2,11 +2,11 @@
 
 namespace Mongodb;
 
-/**
- * User: lee
- * Date: 15-10-26
- * Time: 4:02 pm
- */
+    /**
+     * User: lee
+     * Date: 15-10-26
+     * Time: 4:02 pm
+     */
 
 /**
  *
@@ -17,28 +17,27 @@ namespace Mongodb;
  */
 class Mongodb
 {
-    private static $instance;
-    private $user;
-    private $pwd;
-    private $host;
-    private $port;
-    private $dbname;
-    private $connect=array();
+    public static $instance;
+    public $user;
+    public $pwd;
+    public $host;
+    public $port;
+    public $dbname;
+    public $connect = array();
 
-    private $mongo;
+    public $mongo;
     public $db;
-    private $error;
+    public $error;
 
-    final private function __construct()
+    public function __construct()
     {
         $this->connection_string();
-        $this->connect();
     }
 
-    private function connect()
+    public function connect()
     {
         try {
-            $this->mongo = new \MongoClient("mongodb://{$this->user}:{$this->pwd}@{$this->host}:{$this->port}/{$this->dbname}",$this->connect);
+            $this->mongo = new \MongoClient("mongodb://{$this->user}:{$this->pwd}@{$this->host}:{$this->port}/{$this->dbname}", $this->connect);
             $this->db = $this->mongo->selectDB($this->dbname);
             return $this;
         } catch (\MongoConnectionException $e) {
@@ -47,21 +46,23 @@ class Mongodb
         }
     }
 
-    private function connection_string()
+    public  function connection_string()
     {
         $config = require('config.php');
-        $this->user = $config['user'];
-        $this->pwd = $config['pwd'];
-        $this->host = $config['host'];
-        $this->port = $config['port'];
-        $this->dbname = $config['dbname'];
+        $this->user = isset($config['user'])?$config['user']:'';
+        $this->pwd = isset($config['pwd'])?$config['pwd']:'';
+        $this->host = isset($config['host'])?$config['host']:'';
+        $this->port = isset($config['port'])?$config['port']:'';
+        $this->dbname = isset($config['dbname'])?$config['dbname']:'';
         $this->connect = array(
-            'connect'=>$config['connect']
+            'connect' => isset($config['connect'])?$config['connect']:''
         );
     }
 
+
     public static function getInstance()
     {
+        self::connect();
         if (!(self::$instance instanceof self)) {
             self::$instance = new self;
         }
@@ -75,7 +76,9 @@ class Mongodb
 
     public function __destruct()
     {
-        $this->mongo->close();
+        if(is_resource($this->mongo)){
+            $this->mongo->close();
+        }
     }
 
 }
