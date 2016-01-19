@@ -46,16 +46,16 @@ class Mongodb
         }
     }
 
-    public  function connection_string()
+    public function connection_string()
     {
         $config = require('config.php');
-        $this->user = isset($config['user'])?$config['user']:'';
-        $this->pwd = isset($config['pwd'])?$config['pwd']:'';
-        $this->host = isset($config['host'])?$config['host']:'';
-        $this->port = isset($config['port'])?$config['port']:'';
-        $this->dbname = isset($config['dbname'])?$config['dbname']:'';
+        $this->user = isset($config['user']) ? $config['user'] : '';
+        $this->pwd = isset($config['pwd']) ? $config['pwd'] : '';
+        $this->host = isset($config['host']) ? $config['host'] : '';
+        $this->port = isset($config['port']) ? $config['port'] : '';
+        $this->dbname = isset($config['dbname']) ? $config['dbname'] : '';
         $this->connect = array(
-            'connect' => isset($config['connect'])?$config['connect']:''
+            'connect' => isset($config['connect']) ? $config['connect'] : ''
         );
     }
 
@@ -74,11 +74,16 @@ class Mongodb
         trigger_error('Clone is not allow!', E_USER_ERROR);
     }
 
-    public function __destruct()
+    public function close()
     {
-        if(is_resource($this->mongo)){
+        if (is_resource($this->mongo)) {
             $this->mongo->close();
         }
+    }
+
+    public function __destruct()
+    {
+        $this->close();
     }
 
 }
