@@ -2,12 +2,6 @@
 
 namespace Mongodb;
 
-    /**
-     * User: lee
-     * Date: 15-10-26
-     * Time: 4:02 pm
-     */
-
 /**
  *
  * Class Mongodb
@@ -17,7 +11,7 @@ namespace Mongodb;
  */
 class Mongodb
 {
-    public static $instance;
+    private static $instance;
     public $user;
     public $pwd;
     public $host;
@@ -27,9 +21,9 @@ class Mongodb
 
     public $mongo;
     public $db;
-    public $error;
+    protected $error;
 
-    public function __construct()
+    private function __construct()
     {
         $this->connection_string();
     }
@@ -69,7 +63,7 @@ class Mongodb
         return self::$instance;
     }
 
-    public function __clone()
+    private function __clone()
     {
         trigger_error('Clone is not allow!', E_USER_ERROR);
     }
