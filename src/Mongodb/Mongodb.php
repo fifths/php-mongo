@@ -1,6 +1,6 @@
 <?php
 
-namespace Fifths;
+namespace Mongodb;
 
 class Mongo_db
 {
