@@ -1,7 +1,7 @@
 # mongodb class
 
 ```
-composer require fifths/mongodb
+composer require fifths/php-mongo
 ```
 
 ##Select Method
