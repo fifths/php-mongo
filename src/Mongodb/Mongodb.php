@@ -40,10 +40,10 @@ class Mongo_db
         if (isset($this->config['port'])) {
             $this->port = trim($this->config['port']);
         }
-        if (isset($this->config['username'])) {
+        if (!empty($this->config['username'])) {
             $this->username = trim($this->config['username']);
         }
-        if (isset($this->config['password'])) {
+        if (!empty($this->config['password'])) {
             $this->password = trim($this->config['password']);
         }
         if (isset($this->config['database'])) {
@@ -61,7 +61,13 @@ class Mongo_db
     {
         $this->prepareConfig();
         try {
-            $dsn = "mongodb://{$this->hostname}:{$this->port}/{$this->database}";
+            if (strstr($this->hostname, ',')) {
+                $dsn = "mongodb://{$this->hostname}/{$this->database}";
+
+            }else {
+                $dsn = "mongodb://{$this->hostname}:{$this->port}/{$this->database}";
+
+            }
             $options = array(
                 'username' => $this->username,
                 'password' => $this->password
@@ -394,10 +400,10 @@ class Mongo_db
         }
         $filter = $this->wheres;
         $options = [
-            'projection' => $this->selects,
-            "sort" => $this->sorts,
-            "skip" => 0,
-            "limit" => 1,
+        'projection' => $this->selects,
+        "sort" => $this->sorts,
+        "skip" => 0,
+        "limit" => 1,
         ];
         $query = new \MongoDB\Driver\Query($filter, $options);
         $dbc = $this->database . '.' . $this->collection;
@@ -505,8 +511,8 @@ class Mongo_db
         $db = $this->database;
         $commands = new \MongoDB\Driver\Command(
             [
-                'aggregate' => $this->collection,
-                'pipeline' => [$commands]
+            'aggregate' => $this->collection,
+            'pipeline' => [$commands]
             ]
         );
         $cursor = $this->command($db, $commands);
@@ -524,9 +530,9 @@ class Mongo_db
         $db = $this->database;
         $commands = new \MongoDB\Driver\Command(
             [
-                'distinct' => $this->collection,
-                'key' => $key,
-                'query' => $this->wheres
+            'distinct' => $this->collection,
+            'key' => $key,
+            'query' => $this->wheres
             ]
         );
         $cursor = $this->command($db, $commands);
@@ -544,8 +550,8 @@ class Mongo_db
         $db = $this->database;
         $commands = new \MongoDB\Driver\Command(
             [
-                "count" => $this->collection,
-                "query" => $this->wheres
+            "count" => $this->collection,
+            "query" => $this->wheres
             ]
         );
         $cursor = $this->command($db, $commands);
@@ -563,10 +569,10 @@ class Mongo_db
         try {
             $filter = (array)$this->wheres;
             $options = [
-                'projection' => (array)$this->selects,
-                "sort" => (array)$this->sorts,
-                "skip" => (int)$this->offset,
-                "limit" => (int)$this->limit,
+            'projection' => (array)$this->selects,
+            "sort" => (array)$this->sorts,
+            "skip" => (int)$this->offset,
+            "limit" => (int)$this->limit,
             ];
             $query = new \MongoDB\Driver\Query($filter, $options);
             $dbc = $this->database . '.' . $this->collection;
@@ -892,6 +898,19 @@ class Mongo_db
         } else {
             return new \MongoDB\BSON\Timestamp(0, $stamp);
         }
+    }
+
+
+
+      /**
+     * 生成mongo uuid
+     * @param bool $stamp
+     * @return  
+     */
+      public function uuid($uuid)
+      {
+        return  new \MongoDB\BSON\Binary($uuid,\MongoDB\BSON\Binary::TYPE_UUID);
+
     }
 
     /**
