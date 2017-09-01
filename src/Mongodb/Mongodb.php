@@ -11,6 +11,8 @@ class Mongo_db
     private $username;
     private $password;
     private $debug = false;
+    private $authSource;
+    private $replicaSet=null;
 
     private $collection = '';
     private $selects;
@@ -49,6 +51,12 @@ class Mongo_db
         if (isset($this->config['database'])) {
             $this->database = trim($this->config['database']);
         }
+        if (!empty($this->config['authSource'])) {
+            $this->authSource = trim($this->config['authSource']);
+        }
+        if (!empty($this->config['replicaSet'])) {
+            $this->replicaSet = trim($this->config['replicaSet']);
+        }
         if (isset($this->config['db_debug'])) {
             $this->debug = $this->config['db_debug'];
         }
@@ -70,7 +78,9 @@ class Mongo_db
             }
             $options = array(
                 'username' => $this->username,
-                'password' => $this->password
+                'password' => $this->password,
+                'authSource'=>$this->authSource,
+                'replicaSet'=>$this->replicaSet
             );
             $this->manager = new \MongoDB\Driver\Manager($dsn, $options);
         } catch (\Exception $e) {
